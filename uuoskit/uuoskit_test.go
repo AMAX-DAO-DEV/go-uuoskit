@@ -15,7 +15,7 @@ import (
 	"testing"
 
 	"github.com/iancoleman/orderedmap"
-	secp256k1 "github.com/uuosio/go-secp256k1"
+	secp256k1 "github.com/AMAX-DAO-DEV/go-secp256k1"
 )
 
 func TestOrderedMap(t *testing.T) {

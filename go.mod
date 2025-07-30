@@ -1,12 +1,12 @@
-module github.com/uuosio/go-uuoskit
+module github.com/AMAX-DAO-DEV/go-uuoskit
 
 go 1.17
 
 require (
+	github.com/AMAX-DAO-DEV/go-secp256k1 v0.1.1
 	github.com/go-errors/errors v1.4.1
 	github.com/iancoleman/orderedmap v0.2.0
 	github.com/stretchr/testify v1.7.0
-	github.com/uuosio/go-secp256k1 v0.1.1
 )
 
 require (
