@@ -18,15 +18,17 @@ func GetWallet() *Wallet {
 	return gWallet
 }
 
-func (w *Wallet) Import(strPriv string) error {
+func (w *Wallet) Import(strPriv string) (string, error) {
 	priv, err := secp256k1.NewPrivateKeyFromBase58(strPriv)
 	if err != nil {
-		return newError(err)
+		return "", newError(err)
 	}
 
 	pub := priv.GetPublicKey()
-	w.keys[pub.StringAMAX()] = priv
-	return nil
+	pubKeyStr := pub.StringAMAX()
+	w.keys[pubKeyStr] = priv
+
+	return pubKeyStr, nil
 }
 
 func (w *Wallet) Remove(pubKey string) bool {
@@ -46,13 +48,23 @@ func (w *Wallet) Remove(pubKey string) bool {
 	return false
 }
 
-//GetPublicKeys
+// GetPublicKeys
 func (w *Wallet) GetPublicKeys() []string {
 	keys := make([]string, 0, len(w.keys))
 	for k := range w.keys {
 		keys = append(keys, k)
 	}
 	return keys
+}
+
+func (w *Wallet) GetPublicKey(strPriv string) (string, error) {
+	priv, err := secp256k1.NewPrivateKeyFromBase58(strPriv)
+	if err != nil {
+		return "", newErrorf("wrong private key")
+	}
+
+	pub := priv.GetPublicKey()
+	return pub.StringAMAX(), nil
 }
 
 func (w *Wallet) GetPrivateKey(pubKey string) (*secp256k1.PrivateKey, error) {

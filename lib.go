@@ -78,12 +78,12 @@ func say_hello_(name *C.char) {
 //export wallet_import_
 func wallet_import_(priv *C.char) *C.char {
 	_priv := C.GoString(priv)
-	err := uuoskit.GetWallet().Import(_priv)
+	pubKey, err := uuoskit.GetWallet().Import(_priv)
 	if err != nil {
 		return renderError(err)
 	}
 	// log.Println("import", _priv)
-	return renderData("ok")
+	return renderData(pubKey)
 }
 
 //export wallet_remove_
@@ -91,6 +91,16 @@ func wallet_remove_(pubKey *C.char) C.bool {
 	_pubKey := C.GoString(pubKey)
 	ret := uuoskit.GetWallet().Remove(_pubKey)
 	return C.bool(ret)
+}
+
+//export wallet_get_public_key_
+func wallet_get_public_key_(priv *C.char) *C.char {
+	_priv := C.GoString(priv)
+	pubKey, err := uuoskit.GetWallet().GetPublicKey(_priv)
+	if err != nil {
+		return renderError(err)
+	}
+	return renderData(pubKey)
 }
 
 //export wallet_get_public_keys_
