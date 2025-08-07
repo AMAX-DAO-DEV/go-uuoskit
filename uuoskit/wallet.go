@@ -18,7 +18,7 @@ func GetWallet() *Wallet {
 	return gWallet
 }
 
-func (w *Wallet) Import(name string, strPriv string) error {
+func (w *Wallet) Import(strPriv string) error {
 	priv, err := secp256k1.NewPrivateKeyFromBase58(strPriv)
 	if err != nil {
 		return newError(err)
@@ -29,7 +29,7 @@ func (w *Wallet) Import(name string, strPriv string) error {
 	return nil
 }
 
-func (w *Wallet) Remove(name string, pubKey string) bool {
+func (w *Wallet) Remove(pubKey string) bool {
 	_pubKey, err := secp256k1.NewPublicKeyFromBase58(pubKey)
 	if err != nil {
 		return false

@@ -28,9 +28,9 @@ import (
 	"runtime"
 	"unsafe"
 
-	traceable_errors "github.com/go-errors/errors"
 	secp256k1 "github.com/AMAX-DAO-DEV/go-secp256k1"
 	"github.com/AMAX-DAO-DEV/go-uuoskit/uuoskit"
+	traceable_errors "github.com/go-errors/errors"
 )
 
 func renderData(data interface{}) *C.char {
@@ -76,22 +76,20 @@ func say_hello_(name *C.char) {
 }
 
 //export wallet_import_
-func wallet_import_(name *C.char, priv *C.char) *C.char {
-	_name := C.GoString(name)
+func wallet_import_(priv *C.char) *C.char {
 	_priv := C.GoString(priv)
-	err := uuoskit.GetWallet().Import(_name, _priv)
+	err := uuoskit.GetWallet().Import(_priv)
 	if err != nil {
 		return renderError(err)
 	}
-	// log.Println("import", _name, _priv)
+	// log.Println("import", _priv)
 	return renderData("ok")
 }
 
 //export wallet_remove_
-func wallet_remove_(name *C.char, pubKey *C.char) C.bool {
-	_name := C.GoString(name)
+func wallet_remove_(pubKey *C.char) C.bool {
 	_pubKey := C.GoString(pubKey)
-	ret := uuoskit.GetWallet().Remove(_name, _pubKey)
+	ret := uuoskit.GetWallet().Remove(_pubKey)
 	return C.bool(ret)
 }
 
